@@ -1,0 +1,22 @@
+{
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": [
+      "jsdoc",
+      "closure"
+    ]
+  },
+  "source": {
+    "include": [
+      "src",
+      "package.json",
+      "README.md"
+    ],
+    "includePattern": ".+\\.(j|t)s(doc|x)?$"
+  },
+  "opts": {
+    "destination": "./documentation",
+    "recurse": true,
+    "encoding": "utf8"
+  }
+}

@@ -1,6 +1,13 @@
+/**
+ * author Chong Gao
+ * This is the left part of the page
+ */
 import { useEffect, useState } from "react"
-import validate from "../validation"
+import validate from "./validation"
 
+/**
+ * creat an empty form and set a default size
+ */
 const EMPTY_FORM = {
   size: "small",
   firstName: "",
@@ -15,6 +22,10 @@ const EMPTY_FORM = {
 
 
 const Form = ({ currentIndex, setData, data, setCurrentIndex }) => {
+  /**
+   * Use the current index to toggle the order, when it is -1, 
+   * the form is considered editable and is needed to be empty
+   */
   useEffect(() => {
     if (currentIndex === -1) {
       setForm({ ...EMPTY_FORM })
@@ -29,11 +40,13 @@ const Form = ({ currentIndex, setData, data, setCurrentIndex }) => {
     ...EMPTY_FORM
   })
 
-
   const [toppings, setToppings] = useState([])
 
-  const [errMsg, setErrMsg] = useState("")
+  // const [errMsg, setErrMsg] = useState("")
 
+  /**
+ * Manage input box data
+ */
   const handleFormChange = (key, value) => {
     setForm({
       ...form,
@@ -41,6 +54,9 @@ const Form = ({ currentIndex, setData, data, setCurrentIndex }) => {
     })
   }
 
+  /**
+ * Manage check box data
+ */
   const handleToppingsChange = (name) => {
     if (toppings.includes(name)) {
       setToppings(toppings.filter((topping) => topping !== name))
@@ -49,13 +65,24 @@ const Form = ({ currentIndex, setData, data, setCurrentIndex }) => {
     setToppings([...toppings, name])
   }
 
+  /**
+ * After completing the information input, you need to add a name to the order when submitting the information
+ */
+
   const handleSave = () => {
 
+    // const message = validate(values)
+    // setErrMsg(message)
+    // if (message) return
     const name = prompt("Please enter the name of the pizza")
     setData([...data, { ...form, toppings, name }])
+    localStorage.setItem("data", { ...form, toppings, name })
 
   }
 
+  /**
+ * Determine the index of the last order based on the length of the data
+ */
   useEffect(() => {
     setCurrentIndex(data.length - 1)
   }, [data])
@@ -104,7 +131,7 @@ const Form = ({ currentIndex, setData, data, setCurrentIndex }) => {
 
         <input disabled={currentIndex !== -1} value={form.firstName} onChange={(e) => handleFormChange("firstName", e.target.value)} className="border-b border w-full flex-1" placeholder="First Name" />
         <input disabled={currentIndex !== -1} value={form.lastName} onChange={(e) => handleFormChange("lastName", e.target.value)} className="border-b border w-full flex-1" placeholder="Last Name" />
-        <input disabled={currentIndex !== -1} value={form.phoneNum} onChange={(e) => handleFormChange("phoneNum", e.target.value)} className="border-b border w-full flex-1" placeholder="Phone Number" />
+        <input disabled={currentIndex !== -1} value={form.phoneNum} onChange={(e) => handleFormChange("phoneNum", e.target.value)} className="border-b border w-full flex-1" placeholder="Phone Number(Start with 614)" />
         <div className={"w-full flex-1"} />
       </form>
 
@@ -117,7 +144,7 @@ const Form = ({ currentIndex, setData, data, setCurrentIndex }) => {
         <input disabled={currentIndex !== -1} value={form.floor} onChange={(e) => handleFormChange("floor", e.target.value)} className="border-b border w-full flex-1" placeholder="Floor" />
 
       </form>
-      <p>{errMsg}</p>
+      {/* <p>{errMsg}</p> */}
       <button onClick={handleSave} className="px-4 mt-2 py-2">Submit</button>
     </div>
   )

@@ -1,3 +1,10 @@
+/**
+ * author Chong Gao
+ * This is the right part of the page
+ */
+/**
+   * Use the current index to toggle the order, when it is -1, the form is considered editable
+   */
 const PizzasOrders = ({ data, setCurrentIndex, currentIndex }) => {
     return <div>
         {data.map((item, index) => <OrderItem selected={currentIndex === index} onSelect={() => setCurrentIndex(index)} key={index} name={item.name} />)}
